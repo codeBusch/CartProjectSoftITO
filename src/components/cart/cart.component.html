@@ -1,0 +1,57 @@
+<div *ngIf="cartService.getCartList().length > 0 && (cartService.getUserCart()?.items !== undefined)">
+    <!-- <p>{{ cartService.getUserCart() | json }}</p> -->
+    <!--Todo cartlist = [] don't show cart  list-->
+ 
+    <table class="table table-hover"x >
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th> </th>
+                <th>Quantity</th>
+                <th class="text-center">Price</th>
+                <th class="text-center">Total</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let cartItem of cartService.getUserCart()?.items">
+                <td class="col-sm-8 col-md-6">
+                    <div class="media">
+                        <a class="thumbnail pull-left" href="#">
+                            <!-- <img class="media-object" [src]="cartItem.product.image.small" style="width: 72px; height: 72px;"> -->
+                        </a>
+                        <div class="media-body">
+                          <h4 class="media-heading"><a href="#">{{ cartItem.productName}}</a></h4>
+                            <!-- <h5 class="media-heading"> by <a href="#">{{ cartItem.product.category.name }}</a></h5> -->
+                            <span>Status: </span><span class="text-warning"><strong>In Stock</strong></span>
+                        </div>
+                    </div>
+                </td>
+                <td></td>
+                <td class="col-sm-1 col-md-1" style="text-align: center">
+                    <input type="number" min="1" class="form-control" [(ngModel)]="cartItem.count">
+                </td>
+                <td class="col-sm-1 col-md-1 text-center"><strong>{{ cartItem.price | currency }}</strong></td>
+                <td class="col-sm-1 col-md-1 text-center">
+                    <strong>{{ cartItem.count * cartItem.price | currency }}</strong>
+                </td>
+                <td class="col-sm-1 col-md-1">
+                    <button type="button" class="btn btn-danger"  (click)="cartService.removeProductFromCart        (cartItem)">
+                        <span class="fa fa-remove"></span> Remove
+                    </button>
+                </td>
+            </tr>
+            <!-- Total -->
+         
+            <tr>
+                <td colspan="4"><h5>Cart Total</h5></td>
+                <td class="text-right"><h5><strong>{{ cartService.calculateTotalItems() | currency }}</strong></h5></td>
+                <td><button type="button" class="btn btn-success">
+                    Buy now <span class="fa fa-play"></span>
+                </button></td>
+            </tr>
+
+          
+        </tbody>
+    </table>
+</div>
